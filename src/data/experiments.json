@@ -1,0 +1,262 @@
+[
+  {
+    "id": "exp-elisa-il6",
+    "title": "IL-6 Sandwich ELISA — 21-day cytokine panel",
+    "description": "Daily quantification of IL-6 in stimulated PBMC supernatants across a 21-day time course, two plates per day.",
+    "durationDays": 21,
+    "startDay": 1,
+    "deadlineDay": 24,
+    "materials": [
+      {
+        "id": "cab",
+        "name": "Capture antibody (anti-IL-6)",
+        "unit": "µg",
+        "currentInventory": 400,
+        "dailyConsumption": 18,
+        "wastePct": 5,
+        "safetyStock": 60,
+        "supplierLeadTimeDays": 14,
+        "expiryDay": 12,
+        "shelfLifeDays": 120,
+        "incomingShipments": [
+          {
+            "arrivalDay": 18,
+            "quantity": 300
+          }
+        ],
+        "critical": true,
+        "unitCost": 4.2,
+        "supplier": "R&D Systems",
+        "catalogNumber": "DY206 (Human IL-6 DuoSet, capture Ab)"
+      },
+      {
+        "id": "dab",
+        "name": "Detection antibody (biotinylated)",
+        "unit": "µg",
+        "currentInventory": 300,
+        "dailyConsumption": 10,
+        "wastePct": 5,
+        "safetyStock": 40,
+        "supplierLeadTimeDays": 10,
+        "expiryDay": 40,
+        "shelfLifeDays": 120,
+        "incomingShipments": [],
+        "critical": true,
+        "unitCost": 5.1,
+        "supplier": "R&D Systems",
+        "catalogNumber": "DY206 (Human IL-6 DuoSet, detection Ab)"
+      },
+      {
+        "id": "shrp",
+        "name": "Streptavidin-HRP",
+        "unit": "mL",
+        "currentInventory": 10,
+        "dailyConsumption": 0.4,
+        "wastePct": 8,
+        "safetyStock": 2,
+        "supplierLeadTimeDays": 7,
+        "expiryDay": 30,
+        "shelfLifeDays": 90,
+        "incomingShipments": [],
+        "critical": true,
+        "unitCost": 38,
+        "supplier": "R&D Systems",
+        "catalogNumber": "DY998 (Streptavidin-HRP)"
+      },
+      {
+        "id": "tmb",
+        "name": "TMB substrate",
+        "unit": "mL",
+        "currentInventory": 500,
+        "dailyConsumption": 22,
+        "wastePct": 10,
+        "safetyStock": 80,
+        "supplierLeadTimeDays": 5,
+        "expiryDay": 60,
+        "shelfLifeDays": 180,
+        "incomingShipments": [
+          {
+            "arrivalDay": 10,
+            "quantity": 300
+          }
+        ],
+        "critical": true,
+        "unitCost": 0.9,
+        "supplier": "Thermo Fisher",
+        "catalogNumber": "34028 (1-Step Ultra TMB-ELISA)",
+        "pubchemQuery": "3,3',5,5'-Tetramethylbenzidine"
+      },
+      {
+        "id": "coat",
+        "name": "Coating buffer (carbonate, pH 9.6)",
+        "unit": "mL",
+        "currentInventory": 2000,
+        "dailyConsumption": 60,
+        "wastePct": 3,
+        "safetyStock": 200,
+        "supplierLeadTimeDays": 3,
+        "expiryDay": 90,
+        "shelfLifeDays": 180,
+        "incomingShipments": [],
+        "critical": false,
+        "unitCost": 0.05,
+        "supplier": "Sigma-Aldrich",
+        "catalogNumber": "C3041 (Carbonate-bicarbonate buffer)",
+        "pubchemQuery": "Sodium bicarbonate"
+      },
+      {
+        "id": "plate",
+        "name": "96-well high-binding plates",
+        "unit": "plates",
+        "currentInventory": 30,
+        "dailyConsumption": 1.2,
+        "wastePct": 2,
+        "safetyStock": 5,
+        "supplierLeadTimeDays": 6,
+        "expiryDay": 999,
+        "shelfLifeDays": 999,
+        "incomingShipments": [
+          {
+            "arrivalDay": 14,
+            "quantity": 20
+          }
+        ],
+        "critical": false,
+        "unitCost": 6.5,
+        "supplier": "Thermo Fisher",
+        "catalogNumber": "442404 (Nunc MaxiSorp 96-well)"
+      },
+      {
+        "id": "stop",
+        "name": "Stop solution (2N H₂SO₄)",
+        "unit": "mL",
+        "currentInventory": 900,
+        "dailyConsumption": 22,
+        "wastePct": 5,
+        "safetyStock": 100,
+        "supplierLeadTimeDays": 4,
+        "expiryDay": 365,
+        "shelfLifeDays": 365,
+        "incomingShipments": [],
+        "critical": false,
+        "unitCost": 0.02,
+        "supplier": "R&D Systems",
+        "catalogNumber": "DY994 (Stop Solution, 2N H₂SO₄)",
+        "pubchemQuery": "Sulfuric acid"
+      }
+    ],
+    "protocol": {
+      "title": "DuoSet ELISA Development System — General Protocol",
+      "source": "R&D Systems (Bio-Techne)",
+      "url": "https://www.rndsystems.com/resources/protocols/duoset-elisa-development-system-protocol"
+    }
+  },
+  {
+    "id": "exp-mtt-viability",
+    "title": "MTT Cell Viability — 14-day doxorubicin dose response",
+    "description": "Dose-response viability of HepG2 cells to doxorubicin across 8 concentrations, read every day for 14 days.",
+    "durationDays": 14,
+    "startDay": 1,
+    "deadlineDay": 18,
+    "materials": [
+      {
+        "id": "mtt",
+        "name": "MTT reagent (5 mg/mL)",
+        "unit": "mL",
+        "currentInventory": 120,
+        "dailyConsumption": 5,
+        "wastePct": 6,
+        "safetyStock": 20,
+        "supplierLeadTimeDays": 5,
+        "expiryDay": 45,
+        "shelfLifeDays": 90,
+        "incomingShipments": [],
+        "critical": true,
+        "unitCost": 1.8,
+        "supplier": "Thermo Fisher",
+        "catalogNumber": "M6494 (MTT, Invitrogen)",
+        "pubchemQuery": "Thiazolyl blue tetrazolium bromide"
+      },
+      {
+        "id": "dmso",
+        "name": "DMSO (cell-culture grade)",
+        "unit": "mL",
+        "currentInventory": 800,
+        "dailyConsumption": 30,
+        "wastePct": 4,
+        "safetyStock": 100,
+        "supplierLeadTimeDays": 3,
+        "expiryDay": 365,
+        "shelfLifeDays": 365,
+        "incomingShipments": [],
+        "critical": true,
+        "unitCost": 0.12,
+        "supplier": "Sigma-Aldrich",
+        "catalogNumber": "D2650 (DMSO Hybri-Max)",
+        "pubchemQuery": "Dimethyl sulfoxide"
+      },
+      {
+        "id": "dmem",
+        "name": "DMEM + 10% FBS medium",
+        "unit": "mL",
+        "currentInventory": 3000,
+        "dailyConsumption": 140,
+        "wastePct": 5,
+        "safetyStock": 500,
+        "supplierLeadTimeDays": 4,
+        "expiryDay": 28,
+        "shelfLifeDays": 30,
+        "incomingShipments": [
+          {
+            "arrivalDay": 8,
+            "quantity": 1000
+          }
+        ],
+        "critical": true,
+        "unitCost": 0.06,
+        "supplier": "Gibco",
+        "catalogNumber": "11965092 (DMEM, high glucose)"
+      },
+      {
+        "id": "plate96",
+        "name": "96-well TC-treated plates",
+        "unit": "plates",
+        "currentInventory": 40,
+        "dailyConsumption": 2,
+        "wastePct": 2,
+        "safetyStock": 6,
+        "supplierLeadTimeDays": 6,
+        "expiryDay": 999,
+        "shelfLifeDays": 999,
+        "incomingShipments": [],
+        "critical": false,
+        "unitCost": 4.9,
+        "supplier": "Corning",
+        "catalogNumber": "3596 (Costar 96-well TC-treated)"
+      },
+      {
+        "id": "dox",
+        "name": "Doxorubicin HCl stock (10 mM)",
+        "unit": "µL",
+        "currentInventory": 2500,
+        "dailyConsumption": 120,
+        "wastePct": 3,
+        "safetyStock": 300,
+        "supplierLeadTimeDays": 21,
+        "expiryDay": 60,
+        "shelfLifeDays": 60,
+        "incomingShipments": [],
+        "critical": true,
+        "unitCost": 0.4,
+        "supplier": "Sigma-Aldrich",
+        "catalogNumber": "D1515 (Doxorubicin hydrochloride)",
+        "pubchemQuery": "Doxorubicin hydrochloride"
+      }
+    ],
+    "protocol": {
+      "title": "Cell Viability Assays (Riss et al.), Assay Guidance Manual",
+      "source": "NCBI Bookshelf NBK144065",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK144065/"
+    }
+  }
+]

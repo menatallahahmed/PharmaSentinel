@@ -1,0 +1,50 @@
+{
+  "exp-elisa-il6": {
+    "agents": [
+      { "id": "evidence", "name": "Evidence Agent", "role": "Collects inventory, supplier and expiry facts", "summary": "Capture antibody lot expires on day 12; replacement arrives day 18.", "reasoning": ["Parsed 7 materials and 3 incoming shipments from the experiment record.", "Capture antibody current lot (192 µg remaining by day 11) is flagged unusable from day 12.", "Next capture antibody shipment (300 µg) is scheduled for day 18 — a 6-day gap.", "Streptavidin-HRP consumption with 8% waste trends below 2 mL safety stock late in the run."], "conclusion": "Two signals: a hard expiry gap on a critical reagent and a soft safety-stock breach.", "confidence": 0.96, "evidenceIds": ["E1", "E2", "E3"] },
+      { "id": "hypothesis", "name": "Hypothesis Agent", "role": "Forms causal explanations for risk", "summary": "The experiment fails because of expiry timing, not consumption volume.", "reasoning": ["H1: Capture antibody runs out from over-consumption — rejected; stock is 192 µg at expiry, well above safety.", "H2: Lot expiry before resupply creates a stockout window — supported by days 12–17 shortfall.", "H3: Strep-HRP waste rate causes late-run safety breach — plausible, non-blocking."], "conclusion": "H2 is primary. Reducing usage alone will not restore feasibility.", "confidence": 0.9, "evidenceIds": ["E1", "E4"] },
+      { "id": "experiment", "name": "Experiment Agent", "role": "Designs and runs what-if simulations", "summary": "Ran 4 scenarios against the day-by-day material model.", "reasoning": ["S1: pull capture antibody shipment forward to day 11.", "S2: cut capture antibody use 25% via half-volume coating.", "S3: add a 4 mL Strep-HRP top-up on day 16.", "S4: combine S1 + S3."], "conclusion": "Only S4 reaches FEASIBLE across all 21 days.", "confidence": 0.93, "evidenceIds": ["E5", "E6"] },
+      { "id": "critic", "name": "Critic Agent", "role": "Challenges assumptions and checks robustness", "summary": "S2 is a false fix; S1 depends on the supplier honoring express delivery.", "reasoning": ["S2 changes assay sensitivity — half-volume coating needs re-validation.", "S1 assumes the 14-day lead time compresses to 10 days at +$420 express cost; supplier confirmed feasible in prior orders.", "Strep-HRP top-up within 7-day lead time is realistic if ordered by day 9."], "conclusion": "Accept S4 with an explicit order deadline; reject S2.", "confidence": 0.85, "evidenceIds": ["E6"] },
+      { "id": "planner", "name": "Scientific Planner", "role": "Synthesizes a recommended plan for human approval", "summary": "Expedite capture antibody to day 11 and add a Strep-HRP top-up on day 16.", "reasoning": ["Combined plan keeps assay protocol unchanged.", "Total added cost ≈ $572; no schedule slip against day-24 deadline."], "conclusion": "Recommend plan S4 for approval.", "confidence": 0.91, "evidenceIds": ["E5", "E6"] }
+    ],
+    "scenarios": [
+      { "id": "S1", "name": "Expedite capture antibody to day 11", "description": "Pay express freight so the 300 µg lot arrives before the current lot expires.", "patches": [{ "materialId": "cab", "replaceShipments": [{ "arrivalDay": 11, "quantity": 300 }] }], "tradeOffs": ["+$420 express freight", "Relies on supplier express slot"], "costDelta": 420 },
+      { "id": "S2", "name": "Reduce capture antibody use by 25%", "description": "Half-volume coating protocol lowers daily antibody demand.", "patches": [{ "materialId": "cab", "changes": { "dailyConsumption": 13.5 } }], "tradeOffs": ["Requires assay re-validation", "Lower signal-to-noise"], "costDelta": 0 },
+      { "id": "S3", "name": "Strep-HRP top-up on day 16", "description": "Order an additional 4 mL Strep-HRP within the 7-day lead time.", "patches": [{ "materialId": "shrp", "addShipments": [{ "arrivalDay": 16, "quantity": 4 }] }], "tradeOffs": ["+$152 reagent cost", "Order must be placed by day 9"], "costDelta": 152 },
+      { "id": "S4", "name": "Combined: expedite + top-up", "description": "S1 and S3 together.", "patches": [{ "materialId": "cab", "replaceShipments": [{ "arrivalDay": 11, "quantity": 300 }] }, { "materialId": "shrp", "addShipments": [{ "arrivalDay": 16, "quantity": 4 }] }], "tradeOffs": ["+$572 total", "Two purchase orders"], "costDelta": 572 }
+    ],
+    "recommendations": [
+      { "id": "R1", "action": "Expedite capture antibody shipment (300 µg) to arrive day 11", "rationale": "Closes the day 12–17 stockout window caused by lot expiry.", "owner": "Lab manager", "dueDay": 1, "scenarioId": "S1" },
+      { "id": "R2", "action": "Order 4 mL Streptavidin-HRP for day 16 delivery", "rationale": "Prevents the day-19 safety-stock breach.", "owner": "Researcher", "dueDay": 9, "scenarioId": "S3" }
+    ],
+    "plannedScenarioId": "S4",
+    "evidence": [
+      { "id": "E1", "claim": "Capture antibody lot expires — stock discarded", "source": "simulation", "agentId": "evidence", "materialId": "cab", "day": 12, "metric": "expired" },
+      { "id": "E2", "claim": "Next capture antibody shipment arrives", "source": "input", "agentId": "evidence", "materialId": "cab", "day": 18, "metric": "arrived" },
+      { "id": "E3", "claim": "Strep-HRP falls below safety stock", "source": "simulation", "agentId": "evidence", "materialId": "shrp", "day": 19, "metric": "stock" },
+      { "id": "E4", "claim": "Capture antibody daily shortfall during gap", "source": "simulation", "agentId": "hypothesis", "materialId": "cab", "day": 13, "metric": "shortfall" },
+      { "id": "E5", "claim": "Combined plan S4 restores feasibility", "source": "agent", "agentId": "experiment" },
+      { "id": "E6", "claim": "Consumption reduction (S2) leaves verdict INFEASIBLE", "source": "agent", "agentId": "critic" }
+    ]
+  },
+  "exp-mtt-viability": {
+    "agents": [
+      { "id": "evidence", "name": "Evidence Agent", "role": "Collects inventory, supplier and expiry facts", "summary": "All 5 materials covered through day 14 with margin.", "reasoning": ["DMEM lot expires day 28 — outside the window.", "Doxorubicin has a 21-day lead time but 2500 µL covers ~20 days."], "conclusion": "No blocking signals.", "confidence": 0.95, "evidenceIds": ["E1"] },
+      { "id": "hypothesis", "name": "Hypothesis Agent", "role": "Forms causal explanations for risk", "summary": "Only plausible risk is a consumption surge on doxorubicin.", "reasoning": ["Long lead time makes doxorubicin the most fragile input if usage rises."], "conclusion": "Stress-test doxorubicin demand.", "confidence": 0.82, "evidenceIds": ["E2"] },
+      { "id": "experiment", "name": "Experiment Agent", "role": "Designs and runs what-if simulations", "summary": "Stress test: +30% doxorubicin consumption.", "reasoning": ["Applied +30% to doxorubicin daily use."], "conclusion": "Remains FEASIBLE.", "confidence": 0.9, "evidenceIds": ["E2"] },
+      { "id": "critic", "name": "Critic Agent", "role": "Challenges assumptions", "summary": "Margins are healthy; no change needed.", "reasoning": ["Safety stock never breached in base or stress case."], "conclusion": "Agree: proceed.", "confidence": 0.88, "evidenceIds": [] },
+      { "id": "planner", "name": "Scientific Planner", "role": "Synthesizes a recommended plan", "summary": "Proceed as planned.", "reasoning": ["No interventions improve the verdict."], "conclusion": "Approve the experiment as designed.", "confidence": 0.94, "evidenceIds": ["E1"] }
+    ],
+    "scenarios": [
+      { "id": "S1", "name": "Stress test: +30% doxorubicin usage", "description": "Robustness check against pipetting overrun.", "patches": [{ "materialId": "dox", "changes": { "dailyConsumption": 156 } }], "tradeOffs": ["None — diagnostic only"], "costDelta": 0 }
+    ],
+    "recommendations": [
+      { "id": "R1", "action": "Proceed as planned; no procurement changes", "rationale": "All materials remain above safety stock through day 14.", "owner": "Researcher", "dueDay": 1, "scenarioId": "BASE" }
+    ],
+    "plannedScenarioId": "BASE",
+    "evidence": [
+      { "id": "E1", "claim": "DMEM stock on final day", "source": "simulation", "agentId": "evidence", "materialId": "dmem", "day": 14, "metric": "stock" },
+      { "id": "E2", "claim": "doxorubicin stock on final day", "source": "simulation", "agentId": "hypothesis", "materialId": "dox", "day": 14, "metric": "stock" }
+    ]
+  }
+}
