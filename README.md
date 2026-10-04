@@ -1,8 +1,16 @@
-# Welcome to your Lovable project
+# PharmaSentinel
+Can a planned experiment stay feasible until completion under uncertain material supply?
 
-This project was built with [Lovable](https://lovable.dev).
+Loop: Question -> Evidence -> Hypothesis -> Experiment 1 -> Result -> Critic -> Planner -> Experiment 2 -> Human approval
 
-## Build with Lovable
+| Data | Source |
+|---|---|
+| Literature | Real: Europe PMC |
+| Inventory, expiry, shipments | Synthetic demo values |
+| Hypotheses, critique, plan | AI/rule-generated |
+| Feasibility results | Computed by simulate() |
+
+Omnigent: agent roles are specified in AGENTS.md and implemented in the backend. Omnigent model integration was blocked by model access in the free environment.
 
 Open your project in the [Lovable editor](https://lovable.dev) and keep building.
 
