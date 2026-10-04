@@ -43,3 +43,52 @@ eg = urllib.request.Request(url, body, {"Content-Type": "application/ison"})
 return ison.load(urllib.request.urlopen(rea, timeout=20)) ["candidates"][0]["content"]["parts"] [0] ["text"]
 except Exception:
 return None
+def log(run, agent, msg): AUDIT. append(dict(run=run, t=time, time(), agent=agent, msg=msg))
+@app.get ("/health")
+def health(): return {"ok": True, "llm": bool(os.getenv("GEMINI_API_KEY") )}
+@app.get("/experiments")
+def experiments(): return [dict(id="EXP-ELISA-21"
+, name="21-day ELISA assay", **DEFAULT) ]
+@app.post("/analyses")
+det analyses bodv: dict = None):
+p = {**DEFAULT, **((body or {}). get ("params") or {})}
+run = f"run-{int(time.time())}"
+ev = evidence(); log(run, "Evidence", f"{len(ev)} items")
+base = simulate(p)
+gap pr"coming day"Lot exexpiryday pl'expiry_day" 17, replacement day fpl'incoming_day ''")
+hyps = l
+dict(id="H1", text="Overconsumption exhausts capture antibody" , status="rejected", confidence=0.88,
+why=f"Starting stock {p['start']} covers {p['start']/(pl'usage']*(1+p['waste'])):.1f} days, longer than expiry day {pl'expiry_day']}"),
+dict(id="H2", text="Lot expiry before resupply creates stockout window", status="supported", confidence=0.90,
+why=f"Shortage days {base|'shortage_days' ]}; {gap}-day gap"),
+dict(id="H3", text="Waste rate causes late-run breach", status="plausible", confidence=0.60,
+why="Non-blocking in baseline")]
+s_reduce = simulate(p, usage_mult=0.7)
+exp1 = dict(baseline=base, reduce_consumption=s_reduce)
+log(run, "Experiment", f"Baseline feasible=(base|'feasible']}; -30% consumption feasible={s_reducel'feasible']}")
+if not s_reducel"feasible"] and s_reducel"shortage_days"] == basel"shortage_days"]:
+critic = "Reducing consumption is a FALSE FIX: the shortage window is unchanged because the lot expires, not because it is consumed."
+else:
+critic = "Reduction changes the outcome; reconsider H2."
+log(run, "Critic", critic)
+if not s_reducel"feasible"]:
+decision = "Consumption reduction rejected. Next experiment: expedite replacement to the day before expiry and add a top-up."
+exp2 = simulate(p, incoming_day=p|"expiry_day"] - 1, topup=100)
+else:
+decision = "Consumption reduction works; accept and test cost impact."
+exp2 = s_reduce
+log(run, "Planner", decision)
+log|run, "Experiment", f"Experiment 2 feasible={exp2|'feasible']}")
+narrative = 1lm(f"In 3 sentences, explain to a scientist: baseline shortage days {basel'shortage_days']}, "
+f"-30% consumption shortage days {s_reducel'shortage_days']}, expedited+topup feasible={exp2|' feasible']).")
+result = dict(runId=run, params=p, evidence=ev, hypotheses=hyps, experiment1=exp1,
+critic=critic, planner=dict(decision=decision, Ilm_used=bool(narrative)), experiment2=exp2, narrative=narrative,
+provenance=dict (published="Europe PMC items", synthetic="inventory/expiry/shipment values",
+ai_generated="hypotheses, critic, planner", simulation="simulate()"),
+audit=la for a in AUDIT if al"run"] == run], status="awaiting_approval")
+RUNS [run] = result
+return result
+@app.post("/analyses/frun_id}/approvals") def approve(run_id: str, body: dict):
+log (run_id, "Human", f"{body get|'decision' )} {body get('note', '')}")
+RUNS [run_id] ["status"] = body-get("decision", "approved")
+return RUNS [run_id]
