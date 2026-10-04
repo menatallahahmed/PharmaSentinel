@@ -11,6 +11,10 @@ Loop: Question -> Evidence -> Hypothesis -> Experiment 1 -> Result -> Critic -> 
 | Feasibility results | Computed by simulate() |
 
 Omnigent: agent roles are specified in AGENTS.md and implemented in the backend. Omnigent model integration was blocked by model access in the free environment.
+## Setup
+Backend: pip install fastapi uvicorn, then cd backend and run: uvicorn main:app --port 8000
+Endpoints: GET /health, GET /experiments, POST /analyses, POST /analyses/{run_id}/approvals, GET /benchmark
+Frontend: npm install, then npm run dev (runs on built-in mock data and a local simulation unless VITE_API_BASE points at the backend)
 
 Open your project in the [Lovable editor](https://lovable.dev) and keep building.
 
